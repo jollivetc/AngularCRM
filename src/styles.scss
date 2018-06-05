@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~@angular-mdl/core/scss/_color-definitions.scss";
+
+$color-primary:           "194,27,23";
+$color-primary-dark:      "238,238,238";
+$color-accent:            "117,33,39";
+
+$color-primary-contrast:  $color-dark-contrast;
+$color-accent-contrast:   $color-dark-contrast;
+@import "~material-design-icons/iconfont/material-icons.css";
+@import "~@angular-mdl/core/scss/material-design-lite.scss";
+@import "~@angular-mdl/popover/popover.scss";
+@import "~@angular-mdl/select/select.scss";

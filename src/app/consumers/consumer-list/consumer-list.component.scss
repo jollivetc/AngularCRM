@@ -1,0 +1,15 @@
+.table-container {
+  width: 740px;
+  margin: 0 auto;
+  .table-bar {
+    text-align: right;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    top: 15px;
+    z-index: 3;
+  }
+  mdl-table-selectable {
+    display: block;
+  }
+}

@@ -1,0 +1,78 @@
+<form id="consumerForm" [formGroup]="consumerForm" (ngSubmit)="onSubmit()">
+
+    <fieldset>
+
+      <label for="civility">Civilité</label>
+      <select id="civility" formControlName="civility">
+        <option value="Monsieur">Monsieur</option>
+        <option value="Madame">Madame</option>
+        <option value="Mademoiselle">Mademoiselle</option>
+      </select>
+      <app-help [field]="consumerForm.get('civility')"
+                [messages]="{
+                  required: 'Choisissez une civilité'
+
+                }">
+      </app-help>
+    </fieldset>
+
+    <fieldset>
+      <mdl-textfield autofocus label="Prénom" type="text"
+                     formControlName="firstname" floating-label></mdl-textfield>
+      <app-help [field]="consumerForm.get('firstname')"
+                [messages]="{
+                  required: 'Entrez le prénom',
+                  minlength: 'Le prénom doit avoir un minimum de 3 caractères.'
+                }">
+      </app-help>
+    </fieldset>
+
+    <fieldset>
+      <mdl-textfield autofocus label="Nom" type="text"
+                     formControlName="lastname" floating-label></mdl-textfield>
+      <app-help [field]="consumerForm.get('lastname')"
+                [messages]="{
+                  required: 'Entrez le nom',
+                  minlength: 'Le nom doit avoir un minimum de 3 caractères.'
+                }">
+      </app-help>
+    </fieldset>
+
+    <fieldset>
+      <mdl-textfield autofocus label="Email" type="email"
+                     formControlName="email" floating-label></mdl-textfield>
+      <app-help [field]="consumerForm.get('email')"
+                [messages]="{
+                  required: 'Entrez l\'email',
+                  email: 'Format d\'email incorrect'
+                }">
+      </app-help>
+    </fieldset>
+
+    <fieldset>
+      <mdl-textfield autofocus label="Téléphone" type="phone"
+                     formControlName="phone" floating-label maxlength="10"></mdl-textfield>
+      <app-help [field]="consumerForm.get('phone')"
+                [messages]="{
+                  required: 'Entrez le téléphone',
+                  minlength: 'Le téléphone doit avoir un minimum de 10 caractères.'
+                }">
+      </app-help>
+    </fieldset>
+
+    <div class="buttons-bar">
+      <!-- Bouton d'annulation -->
+      <app-button type="button"
+                  libelle="Annuler"
+                  mdlColor=""
+                  icon="cancel"
+                  (click)="cancel()"></app-button>
+      <!-- Bouton de validation du formulaire -->
+      <app-button type="submit"
+                  [disabled]="!consumerForm.valid"
+                  libelle="Valider"
+                  mdlColor="accent"
+                  icon="check"></app-button>
+    </div>
+
+  </form>

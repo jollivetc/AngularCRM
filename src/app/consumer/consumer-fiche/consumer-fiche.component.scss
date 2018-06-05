@@ -1,0 +1,11 @@
+#consumerForm {
+  display: block;
+  width: 720px;
+  margin: 0 auto;
+  div.buttons-bar {
+    text-align: center;
+    app-button {
+      margin: 5px 20px;
+    }
+  }
+}

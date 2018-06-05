@@ -1,0 +1,20 @@
+<div class="login-form-container">
+  <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p>
+      <mdl-textfield autofocus label="Identifiant" type="text" formControlName="login" floating-label></mdl-textfield>
+      <app-help [field]="loginForm.get('login')" [messages]="{
+                         required: 'Entrez votre login',
+                         minlength: 'Le login doit avoir un minimum de 3 caractères.'
+                       }"></app-help>
+    </p>
+    <p>
+      <mdl-textfield label="Mot de passe" type="password" formControlName="password" floating-label></mdl-textfield>
+      <app-help [field]="loginForm.get('password')" [messages]="{required: 'Entrez votre mot de passe',
+                      checkPassword: '5 caractères minimum'}"></app-help>
+    </p>
+    <p>
+      <app-button [disabled]="!loginForm.valid" mdlColor="primary" libelle="Valider" type="submit" mdlType="raised" icon="check">
+      </app-button>
+    </p>
+  </form>
+</div>

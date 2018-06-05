@@ -1,0 +1,6 @@
+<button [disabled]="disabled"
+        [type]="type"
+        mdl-button [mdl-button-type]="mdlType" [mdl-colored]="mdlColor" mdl-ripple>
+  <mdl-icon *ngIf="icon">{{icon}}</mdl-icon>
+  {{libelle !== '' ? libelle : ''}}
+</button>

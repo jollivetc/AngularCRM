@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   public loginForm: FormGroup;
 
@@ -23,10 +23,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
-  onSubmit(): void {
+  onClicked($event): void {
     console.log('submit', this.loginForm.value);
     this.authenticationService.authentUser(this.loginForm.value.login, this.loginForm.value.password)
         .subscribe(

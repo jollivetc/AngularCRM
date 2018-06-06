@@ -13,7 +13,9 @@
                       checkPassword: '5 caractères minimum'}"></app-help>
     </p>
     <p>
-      <app-button [disabled]="!loginForm.valid" mdlColor="primary" libelle="Valider" type="submit" mdlType="raised" icon="check">
+      <app-button [disabled]="!loginForm.valid" mdlColor="primary"
+                libelle="Valider"  mdlType="raised" icon="check"
+                (clicked)="onClicked($event)">
       </app-button>
     </p>
   </form>

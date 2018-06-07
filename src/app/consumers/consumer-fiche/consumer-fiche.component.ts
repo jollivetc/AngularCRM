@@ -33,7 +33,7 @@ export class ConsumerFicheComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         if (params.hasOwnProperty('id')) {
-          const id: number = parseInt(params['id'], 0);
+          const id: number = parseInt(params['id'], 10);
           this.consumerService.getById(id).subscribe(
             (c: IConsumer) => {
               this.consumerForm.patchValue(c);

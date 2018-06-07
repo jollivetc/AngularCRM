@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthenticationGuard } from './login/authentication.guard';
 import { ConsumerListComponent } from './consumers/consumer-list/consumer-list.component';
-import { ConsumerFicheComponent } from './consumer/consumer-fiche/consumer-fiche.component';
+import { ConsumerFicheComponent } from './consumers/consumer-fiche/consumer-fiche.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

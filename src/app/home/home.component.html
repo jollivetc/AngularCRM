@@ -2,3 +2,26 @@
   home works!
   <app-button libelle="Vue d'ensemble" (click)="demoObs.test1()"></app-button>
 </p>
+<input type="text" [ngModel]="phone | phone:'param1'" maxlength="14" (ngModelChange)="phone=$event;">
+
+<h4> Test MdldialogService</h4>
+<app-button #openButtonDialog libelle="Test popup" mdlType="raised" icon="desktop_windows" (click)="openDialog()"></app-button>
+<mdl-dialog #testDialog [mdl-dialog-config]="{
+                   clickOutsideToClose: true,
+                   styles:{'width': '300px'},
+                   openForm: openButtonDialog,
+                   isModal:true,
+                   enterTransitionDuration: 400,
+                   leaveTransitionDuration: 400}" (show)="onDialogShow(testDialog)" (hide)="onDialogHide()">
+  <h3 class="mdl-dialog__title">Edit User</h3>
+  <div class="mdl-dialog__content">
+    <mdl-textfield type="text" label="Username" [(ngModel)]="lastname" floating-label autofocus></mdl-textfield>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button mdl-button (click)="testButton1()" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Enregistrer</button>
+    <button mdl-button (click)="testDialog.close()" mdl-ripple>Annuler</button>
+  </div>
+</mdl-dialog>
+
+<!-- Dialog container -->
+<dialog-outlet></dialog-outlet>

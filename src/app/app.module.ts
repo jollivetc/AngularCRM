@@ -17,7 +17,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JWTIntercepteurService } from './common/jwtintercepteur.service';
 import { GlobalErrorHandlerService } from './common/global-error-handler.service';
 import { ConsumerListComponent } from './consumers/consumer-list/consumer-list.component';
-import { ConsumerFicheComponent } from './consumer/consumer-fiche/consumer-fiche.component';
+import { ConsumerFicheComponent } from './consumers/consumer-fiche/consumer-fiche.component';
+import { PhonePipe } from './commun/phone.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ConsumerFicheComponent } from './consumer/consumer-fiche/consumer-fiche
     HelpComponent,
     HomeComponent,
     ConsumerListComponent,
-    ConsumerFicheComponent
+    ConsumerFicheComponent,
+    PhonePipe
   ],
   imports: [
     BrowserModule,

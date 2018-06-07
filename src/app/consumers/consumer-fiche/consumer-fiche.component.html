@@ -1,12 +1,10 @@
 <form id="consumerForm" [formGroup]="consumerForm" (ngSubmit)="onSubmit()">
 
     <fieldset>
-
       <label for="civility">Civilité</label>
       <select id="civility" formControlName="civility">
-        <option value="Monsieur">Monsieur</option>
-        <option value="Madame">Madame</option>
-        <option value="Mademoiselle">Mademoiselle</option>
+        <option value="Mr">Mr</option>
+        <option value="Mme">Mme</option>
       </select>
       <app-help [field]="consumerForm.get('civility')"
                 [messages]="{

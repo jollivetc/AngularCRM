@@ -16,8 +16,6 @@ export class ConsumerService {
   }
 
   find(lastnameFilter?: string): Observable<IConsumer[]> {
-    const options: any = {observe: 'body', responseType:  'json'};
-    // {observe: 'body', responseType:  'json'};
     let params;
     if (lastnameFilter && lastnameFilter !== '') {
       params = new HttpParams({fromObject: {'q':  lastnameFilter }});

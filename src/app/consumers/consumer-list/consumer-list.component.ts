@@ -24,9 +24,7 @@ export class ConsumerListComponent implements OnInit {
       {key: 'id', name: 'Id', numeric: true},
       {key: 'civility', name: 'Civilité'},
       {key: 'lastname', name: 'Nom'},
-      {key: 'firstname', name: 'Prénom'},
-      {key: 'email', name: 'Email'},
-      {key: 'phone', name: 'Téléphone'}
+      {key: 'firstname', name: 'Prénom'}
     ]);
    }
 

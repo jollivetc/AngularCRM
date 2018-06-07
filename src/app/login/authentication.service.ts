@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IUser } from './model/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 const USER_STORAGE_KEY: string = 'angular-crm.user';
 const TOKEN_STORAGE_KEY: string = 'angular-crm.token';
@@ -33,12 +34,12 @@ export class AuthenticationService {
     return this._token;
   }
 
-  authentUser(login: string, password: string) {
+  authentUser(login: string, password: string): Observable<IUser> {
 
     return this.http.post('/api/auth/login', { email: login, password: password })
       .pipe(
         map(
-          (result: any) => {
+          (result: AuthentResponse) => {
             console.log('result', result);
 
             this._currentUser = result.user;
@@ -59,4 +60,9 @@ export class AuthenticationService {
     sessionStorage.removeItem(USER_STORAGE_KEY);
     sessionStorage.removeItem(TOKEN_STORAGE_KEY);
   }
+}
+
+interface AuthentResponse {
+  user: IUser;
+  token: string;
 }

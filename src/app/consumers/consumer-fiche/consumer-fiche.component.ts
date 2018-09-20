@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 export class ConsumerFicheComponent implements OnInit {
 
   public consumerForm: FormGroup;
+  civilityList = ['Mr', 'Mme'];
 
   constructor(private route: ActivatedRoute,
               private consumerService: ConsumerService,

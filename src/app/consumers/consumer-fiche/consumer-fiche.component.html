@@ -1,11 +1,9 @@
 <form id="consumerForm" [formGroup]="consumerForm" (ngSubmit)="onSubmit()">
 
     <fieldset>
-      <label for="civility">Civilité</label>
-      <select id="civility" formControlName="civility">
-        <option value="Mr">Mr</option>
-        <option value="Mme">Mme</option>
-      </select>
+        <mdl-select formControlName="civility">
+            <mdl-option *ngFor="let civ of civilityList" [value]="civ">{{civ}}</mdl-option>
+          </mdl-select>
       <app-help [field]="consumerForm.get('civility')"
                 [messages]="{
                   required: 'Choisissez une civilité'
@@ -57,7 +55,7 @@
                 }">
       </app-help>
     </fieldset>
-
+    
     <div class="buttons-bar">
       <!-- Bouton d'annulation -->
       <app-button type="button"

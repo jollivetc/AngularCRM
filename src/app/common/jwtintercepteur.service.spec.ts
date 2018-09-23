@@ -1,10 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { JWTIntercepteurService } from './jwtintercepteur.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 
 describe('JWTIntercepteurService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [JWTIntercepteurService]
     });
   });

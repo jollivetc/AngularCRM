@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ButtonComponent } from './button.component';
+import { MdlModule } from '@angular-mdl/core';
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
@@ -8,6 +9,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MdlModule],
       declarations: [ ButtonComponent ]
     })
     .compileComponents();

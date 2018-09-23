@@ -1,5 +1,5 @@
 <div class="login-form-container">
-  <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <form id="login-form" [formGroup]="loginForm" >
     <p>
       <mdl-textfield autofocus label="Identifiant" type="text" formControlName="login" floating-label></mdl-textfield>
       <app-help [field]="loginForm.get('login')" [messages]="{

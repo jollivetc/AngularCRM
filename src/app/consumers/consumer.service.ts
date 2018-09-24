@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { IConsumer } from './model/consumer';
+import { IConsumer, DEFAULT_CIVILITY } from './model/consumer';
 import { Observable } from 'rxjs';
 
 
@@ -10,6 +10,14 @@ import { Observable } from 'rxjs';
 export class ConsumerService {
 
   constructor(private http: HttpClient) { }
+
+  static getNew(): IConsumer {
+    return  {
+      civility: DEFAULT_CIVILITY,
+      firstname: '',
+      lastname: ''
+    };
+  }
 
   getConsumers(): Observable<Array<IConsumer>> {
     return this.http.get<Array<IConsumer>>('/api/consumers');

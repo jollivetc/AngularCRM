@@ -11,8 +11,8 @@ export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'home', component: HomeComponent, canActivate: [AuthenticationGuard]},
   { path: 'consumer', component: ConsumerListComponent, canActivate: [AuthenticationGuard]},
-  {path: 'consumer-fiche', component: ConsumerFicheComponent, canActivate: [AuthenticationGuard]},      // Route pour création
-  {path: 'consumer-fiche/:id', component: ConsumerFicheComponent, canActivate: [AuthenticationGuard]},
+  { path: 'consumer-fiche', component: ConsumerFicheComponent, canActivate: [AuthenticationGuard]},      // Route pour création
+  { path: 'consumer-fiche/:id', component: ConsumerFicheComponent, canActivate: [AuthenticationGuard]},
   { path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
 

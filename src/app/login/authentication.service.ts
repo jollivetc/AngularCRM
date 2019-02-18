@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { IUser } from './model/user';
+import { User } from './model/user';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-const USER_STORAGE_KEY: string = 'angular-crm.user';
-const TOKEN_STORAGE_KEY: string = 'angular-crm.token';
-
+const USER_STORAGE_KEY = 'angular-crm.user';
+const TOKEN_STORAGE_KEY = 'angular-crm-token';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  private _currentUser: IUser = null;
+  private _currentUser: User = null;
   private _token: string = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
+    // Check user connected ?
     if (sessionStorage.getItem(USER_STORAGE_KEY) !== null) {
       this._currentUser = JSON.parse(sessionStorage.getItem(USER_STORAGE_KEY));
       this._token = sessionStorage.getItem(TOKEN_STORAGE_KEY);
@@ -23,46 +23,40 @@ export class AuthenticationService {
   }
 
   public get authenticated(): boolean {
-    return this._currentUser !== null;
+    return this.currentUser !== null;
   }
-
-  public get CurrentUser(): IUser {
+  public get currentUser(): User {
     return this._currentUser;
   }
-
   public get token(): string {
     return this._token;
   }
+  public authentUser(login: string, password: string): Observable<User> {
+    return this.httpClient.post('/api/auth/login', { email: login, password })
+    .pipe(
+      map(
+        (result: AuthentResponse) => {
+          console.log('result', result);
 
-  authentUser(login: string, password: string): Observable<IUser> {
+          this._currentUser = result.user;
+          this._token = result.token;
 
-    return this.http.post('/api/auth/login', { email: login, password: password })
-      .pipe(
-        map(
-          (result: AuthentResponse) => {
-            console.log('result', result);
+          sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(this._currentUser));
+          sessionStorage.setItem(TOKEN_STORAGE_KEY, this._token);
 
-            this._currentUser = result.user;
-            this._token = result.token;
-
-            sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(this._currentUser));
-            sessionStorage.setItem(TOKEN_STORAGE_KEY, this._token);
-
-            return this._currentUser;
-          }
-        )
-      );
+          return this._currentUser;
+        }
+      )
+    );
   }
-
-  disconnect(): void {
+  public disconnect(): void {
     this._currentUser = null;
     this._token = null;
     sessionStorage.removeItem(USER_STORAGE_KEY);
     sessionStorage.removeItem(TOKEN_STORAGE_KEY);
   }
 }
-
 interface AuthentResponse {
-  user: IUser;
+  user: User;
   token: string;
 }

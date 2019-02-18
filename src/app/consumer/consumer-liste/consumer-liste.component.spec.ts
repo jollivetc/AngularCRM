@@ -1,22 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ButtonComponent } from './button.component';
-import { MdlModule } from '@angular-mdl/core';
+import { ConsumerListeComponent } from './consumer-liste.component';
 
-describe('ButtonComponent', () => {
-  let component: ButtonComponent;
-  let fixture: ComponentFixture<ButtonComponent>;
+describe('ConsumerListeComponent', () => {
+  let component: ConsumerListeComponent;
+  let fixture: ComponentFixture<ConsumerListeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MdlModule],
-      declarations: [ ButtonComponent ]
+      declarations: [ ConsumerListeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ButtonComponent);
+    fixture = TestBed.createComponent(ConsumerListeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

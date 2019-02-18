@@ -1,18 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { JWTIntercepteurService } from './jwtintercepteur.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 
 describe('JWTIntercepteurService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [JWTIntercepteurService]
-    });
-  });
+  beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', inject([JWTIntercepteurService], (service: JWTIntercepteurService) => {
+  it('should be created', () => {
+    const service: JWTIntercepteurService = TestBed.get(JWTIntercepteurService);
     expect(service).toBeTruthy();
-  }));
+  });
 });

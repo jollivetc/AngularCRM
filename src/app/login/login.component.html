@@ -1,22 +1,27 @@
-<div class="login-form-container">
-  <form id="login-form" [formGroup]="loginForm" >
+<div>
+  <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <p>
-      <mdl-textfield autofocus label="Identifiant" type="text" formControlName="login" floating-label></mdl-textfield>
-      <app-help [field]="loginForm.get('login')" [messages]="{
+      <mat-form-field>
+        <mat-label for="login">Identifiant</mat-label>
+        <input matInput id="login" type="text" formControlName="login">
+      </mat-form-field>
+      <crm-help [field]="loginForm.get('login')"
+                       [messages]="{
                          required: 'Entrez votre login',
                          minlength: 'Le login doit avoir un minimum de 3 caractères.'
-                       }"></app-help>
+                       }"></crm-help>
     </p>
     <p>
-      <mdl-textfield label="Mot de passe" type="password" formControlName="password" floating-label></mdl-textfield>
-      <app-help [field]="loginForm.get('password')" [messages]="{required: 'Entrez votre mot de passe',
-                      checkPassword: '5 caractères minimum'}"></app-help>
+      <mat-form-field>
+        <mat-label for="password">Mot de passe</mat-label>
+        <input matInput id="password" type="password" formControlName="password">
+      </mat-form-field>
+      <crm-help [field]="loginForm.get('password')"
+                      [messages]="{required: 'Entrez votre mot de passe'}"></crm-help>
     </p>
     <p>
-      <app-button [disabled]="!loginForm.valid" mdlColor="primary"
-                libelle="Valider"  mdlType="raised" icon="check"
-                (clicked)="onClicked($event)">
-      </app-button>
-    </p>
+      <button type="submit" [disabled]="!loginForm.valid" mat-button
+          color="primary">Valider</button>
+   </p>
   </form>
 </div>

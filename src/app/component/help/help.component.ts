@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-help',
+  selector: 'crm-help',
   templateUrl: './help.component.html',
   styleUrls: ['./help.component.scss']
 })
@@ -13,7 +13,6 @@ export class HelpComponent implements OnInit {
 
   @Input()
   public messages: { [key: string]: string; } = null;
-
 
   constructor() { }
 
@@ -27,22 +26,23 @@ export class HelpComponent implements OnInit {
     }
     // Modifié
     return (this.field.touched || this.field.dirty) &&
-      // et invalide
+        // Et invalide
       this.field.errors !== null;
   }
 
   get errors() {
-    if (this.messages === null || this.field === null){
+    if (this.messages === null || this.field === null) {
       return [];
     }
-    // construction liste de message
+    // Construction de la liste des messages
     return Object.keys(this.messages)
-        .filter((key: string) => {
-          return this.field.errors[key] !== undefined;
-        })
-        .map((key: string) =>{
+      .filter((key: string) => {
+        return this.field.errors[key] !== undefined;
+      })
+      .map(
+        (key: string) => {
           return this.messages[key];
-        });
+        }
+      );
   }
-
 }

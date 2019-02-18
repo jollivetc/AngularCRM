@@ -1,56 +1,29 @@
-<div class="app-container" mdl-shadow="2" [ngClass]="appClass">
-  <mdl-layout mdl-layout-fixed-header [mdl-layout-fixed-drawer]="false" #mdlLayout1="mdlLayout">
-
-    <!-- Top page bar -->
-    <mdl-layout-header>
-
-      <mdl-layout-header-row class="main">
-
-        <mdl-layout-title (click)="mdlLayout1.toggleDrawer()">
-          {{title}}
-        </mdl-layout-title>
-
-        <mdl-layout-spacer></mdl-layout-spacer>
-
-        <!-- Header menu -->
-        <nav class="mdl-navigation main-nav">
-          <a class="mdl-navigation__link" [routerLink]="'/home'" [routerLinkActive]="'is-active'">
-            <mdl-icon>home</mdl-icon>
-            Accueil
-          </a>
-          <a class="mdl-navigation__link" [routerLink]="'/consumer'" [routerLinkActive]="'is-active'">
-            <mdl-icon>person</mdl-icon>
-            Consumers
-          </a>
-          <a class="mdl-navigation__link" [routerLink]="'/login'" [routerLinkActive]="'is-active'">
-            <mdl-icon>person</mdl-icon>
-            Login
-          </a>
-
-        </nav>
-
-      </mdl-layout-header-row>
-
-    </mdl-layout-header>
-
-    <!-- Top left application menu -->
-    <mdl-layout-drawer>
-
-      <mdl-layout-title>
-        Angular CRM
-      </mdl-layout-title>
-
-      <div class="mdl-layout-drawer__content"></div>
-
-    </mdl-layout-drawer>
-
-
-    <!-- Page content -->
-    <mdl-layout-content>
-
-      <router-outlet></router-outlet>
-
-    </mdl-layout-content>
-
-  </mdl-layout>
+<div>
+  <mat-toolbar color="primary"  >
+    <span>AngularCRM</span>
+    <span class="fill-remaining-space"></span>
+    <span>
+      <a mat-icon-button matTooltip="Accueil"
+        [routerLink]="'/home'"
+        [routerLinkActive]="'is-active'">
+        <mat-icon>home</mat-icon>
+      </a>
+    </span>
+    <span>
+      <a mat-icon-button matTooltip="Clients"
+        [routerLink]="'/consumer'"
+        [routerLinkActive]="'is-active'">
+        <mat-icon>person</mat-icon>
+      </a>
+    </span>
+    <span>
+      <a mat-icon-button matTooltip="Login"
+        [routerLink]="'/login'"
+        [routerLinkActive]="'is-active'">
+        <mat-icon>person</mat-icon>
+      </a>
+    </span>
+  </mat-toolbar>
 </div>
+<router-outlet></router-outlet>
+

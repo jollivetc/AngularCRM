@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ConsumerService } from '../../consumers/consumer.service';
-import { IConsumer, CIVILITY_LIST } from '../../consumers/model/consumer';
+import { ConsumerService } from '../consumer.service';
+import { Consumer } from '../model/consumer';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-consumer-fiche',
+  selector: 'crm-consumer-fiche',
   templateUrl: './consumer-fiche.component.html',
   styleUrls: ['./consumer-fiche.component.scss']
 })
 export class ConsumerFicheComponent implements OnInit {
 
   public consumerForm: FormGroup;
-  private consumer: IConsumer;
 
   constructor(private route: ActivatedRoute,
               private consumerService: ConsumerService,
@@ -30,45 +29,26 @@ export class ConsumerFicheComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.route.params.subscribe(
+    this.route.paramMap.subscribe(
       (params: Params) => {
-        if (params.hasOwnProperty('id')) {
-          const id: number = parseInt(params['id'], 10);
+        const idAsString = params.get('id');
+        if (idAsString){
+          const id: number = parseInt(idAsString, 10);
           this.consumerService.getById(id).subscribe(
-            (c: IConsumer) => {
-              this.consumerForm.patchValue(c);
-              this.consumer = c;
-            }
+            (c: Consumer) => this.consumerForm.patchValue(c)
           );
-        } else {
-          this.consumer = ConsumerService.getNew();
         }
       }
     );
   }
-
-  get civilityList(): Array<string> {
-    return CIVILITY_LIST;
-  }
   onSubmit() {
-    const c: IConsumer = this.consumerForm.value;
-    const consumerToSave = Object.assign({}, this.consumer, c);
+    const c: Consumer = this.consumerForm.value;
     if (c.id) {
-      this.consumerService.update(consumerToSave).subscribe(
-        () => {
-          this.location.back();
-        }
-      );
+      this.consumerService.update(c).subscribe(() => this.location.back());
     } else {
-      this.consumerService.create(consumerToSave).subscribe(
-        () => {
-          this.location.back();
-        }
-      );
+      this.consumerService.create(c).subscribe(() => this.location.back());
     }
   }
-
   cancel() {
     this.location.back();
   }

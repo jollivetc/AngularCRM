@@ -5,7 +5,13 @@ export class AppPage {
     return browser.get(browser.baseUrl) as Promise<any>;
   }
 
-  getTitleText() {
-    return element(by.css('crm-root h1')).getText() as Promise<string>;
+  login(login: string, password: string) {
+    element(by.id('login')).sendKeys(login);
+    element(by.id('password')).sendKeys(password);
+    element(by.tagName('button')).click();
+  }
+
+  getContentText() {
+    return element(by.tagName('p')).getText() as Promise<string>;
   }
 }

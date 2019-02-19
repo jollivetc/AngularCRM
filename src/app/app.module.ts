@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatToolbarModule, MatSelectModule,
-    MatFormFieldModule, MatInputModule, MatIconModule, MatTooltipModule, MatTableModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -15,6 +13,7 @@ import { JWTIntercepteurService } from './common/jwtintercepteur.service';
 import { PhonePipe } from './common/phone.pipe';
 import { ConsumerListeComponent } from './consumer/consumer-liste/consumer-liste.component';
 import { ConsumerFicheComponent } from './consumer/consumer-fiche/consumer-fiche.component';
+import { AppMaterialModule } from './app-material.module';
 
 
 
@@ -34,17 +33,9 @@ import { ConsumerFicheComponent } from './consumer/consumer-fiche/consumer-fiche
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatTableModule,
     AppRoutingModule,
     HttpClientModule,
+    AppMaterialModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JWTIntercepteurService, multi: true}],
   bootstrap: [AppComponent]

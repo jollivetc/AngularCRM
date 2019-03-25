@@ -14,7 +14,6 @@ export class ConsumerListeComponent implements OnInit {
 
   consumers: Array<Consumer> = [];
   search = '';
-  selected: Array<Consumer> = [];
   tableModel;
   displayedColumns: string[] = ['civility', 'firstname', 'lastname', 'email', 'phone', 'actions'];
 

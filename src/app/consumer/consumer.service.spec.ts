@@ -1,3 +1,4 @@
+
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -9,7 +10,7 @@ describe('ConsumerService', () => {
   }));
 
   it('should be created', () => {
-    const service: ConsumerService = TestBed.get(ConsumerService);
+    const service: ConsumerService = TestBed.inject(ConsumerService);
     expect(service).toBeTruthy();
   });
 });

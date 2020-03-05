@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-crm';
+  title = 'angularCRM';
 
   handle($event): void {
     console.log($event);

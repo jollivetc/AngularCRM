@@ -9,7 +9,7 @@ describe('JWTIntercepteurService', () => {
   }));
 
   it('should be created', () => {
-    const service: JWTIntercepteurService = TestBed.get(JWTIntercepteurService);
+    const service: JWTIntercepteurService = TestBed.inject(JWTIntercepteurService);
     expect(service).toBeTruthy();
   });
 });

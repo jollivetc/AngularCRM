@@ -10,7 +10,7 @@ export class HomeComponent implements OnInit {
   public phone = '0102030405';
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

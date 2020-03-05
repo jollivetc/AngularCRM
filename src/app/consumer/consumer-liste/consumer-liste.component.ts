@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConsumerService } from '../consumer.service';
 import { Consumer } from '../model/consumer';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
 let searchFilter = '';

@@ -63,7 +63,7 @@
         <mat-icon>cancel</mat-icon>
       </button>
       <!-- Bouton de validation du formulaire -->
-      <button type="submit" mat-icon-button color="primary" matTooltip="Valider">
+      <button type="submit" mat-icon-button color="primary" matTooltip="Valider" [disabled]="!consumerForm.valid">
         <mat-icon>check</mat-icon>
       </button>
     </div>

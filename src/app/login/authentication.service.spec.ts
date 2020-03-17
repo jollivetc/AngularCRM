@@ -5,6 +5,17 @@ import { User } from './model/user';
 
 describe('AuthenticationService', () => {
   let httpTestingController: HttpTestingController;
+  const USER_STORAGE_KEY = 'angular-crm.user';
+  const TOKEN_STORAGE_KEY = 'angular-crm-token';
+  let store = {};
+  const mockSessionStorage = {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+  };
 
   beforeEach(() => TestBed.configureTestingModule({
     imports: [HttpClientTestingModule]
@@ -49,7 +60,24 @@ describe('AuthenticationService', () => {
     req.flush(response);
   }));
 
-  it('should retrieve existing user and token from the sessionStorage', () => {
-    
-  })
+  it('should retrieve existing user and token from the sessionStorage and expose them on creation', () => {
+    const fakeUser: User = {
+      id: 42,
+      login: 'aLogin',
+      lastname: 'lastname',
+      firstname: 'firstname'
+    };
+    const fakeToken = 'aToken';
+    spyOn(sessionStorage, 'getItem').and.callFake((key: string): string => {
+      if (key === USER_STORAGE_KEY) {
+        return JSON.stringify(fakeUser);
+      }
+      if (key === TOKEN_STORAGE_KEY) {
+        return fakeToken;
+      }
+    });
+    const service: AuthenticationService = TestBed.inject(AuthenticationService);
+    expect(service.token).toEqual(fakeToken);
+    expect(service.currentUser).toEqual(fakeUser);
+  });
 });

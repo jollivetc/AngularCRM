@@ -19,7 +19,7 @@ export class DummyComponent implements OnInit {
   }
 
   onClicked($event): void {
-    this.clicked.emit(this.label + 'a random string');
+    this.clicked.emit(this.label + ' a random string');
   }
 
 }

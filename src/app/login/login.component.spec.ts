@@ -27,6 +27,12 @@ describe('LoginComponent', () => {
           firstname: 'John'
         });
       });
+    },
+    get authenticated(): boolean {
+      return true;
+    },
+    disconnect: () => {
+      // nothing to do in stub
     }
   };
 
@@ -104,5 +110,14 @@ describe('LoginComponent', () => {
       expect(routerStub.navigateByUrl).toHaveBeenCalledWith('/home');
     });
   }));
-
+  it('should call the disconnect method of the service in constructor if the user is authenticated', () => {
+    spyOn(authenticationServiceStub, 'disconnect');
+    const spyOnAuthenticated = spyOnProperty(authenticationServiceStub, 'authenticated').and.callThrough();
+    // need to recreate the component to call the spy and mock
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(authenticationServiceStub.disconnect).toHaveBeenCalled();
+    expect(spyOnAuthenticated).toHaveBeenCalled();
+  });
 });

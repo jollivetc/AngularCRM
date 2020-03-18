@@ -15,7 +15,7 @@ export class AuthenticationService {
   private _token: string = null;
 
   constructor(private httpClient: HttpClient) {
-    // Check user connected ?
+    // Check user cnnected ?
     if (sessionStorage.getItem(USER_STORAGE_KEY) !== null) {
       this._currentUser = JSON.parse(sessionStorage.getItem(USER_STORAGE_KEY));
       this._token = sessionStorage.getItem(TOKEN_STORAGE_KEY);

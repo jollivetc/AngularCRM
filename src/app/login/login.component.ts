@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   constructor(private authentService: AuthenticationService, private router: Router) {
     if (this.authentService.authenticated){
       this.authentService.disconnect();
-      console.log('disconnect');
     }
     // Login form definition
     this.loginForm = new FormGroup({

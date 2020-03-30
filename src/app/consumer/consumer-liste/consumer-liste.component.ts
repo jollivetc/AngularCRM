@@ -14,7 +14,6 @@ export class ConsumerListeComponent implements OnInit {
 
   consumers: Array<Consumer> = [];
   search = '';
-  tableModel;
   displayedColumns: string[] = ['civility', 'firstname', 'lastname', 'email', 'phone', 'actions'];
 
   constructor(private consumerService: ConsumerService, private router: Router) { }
@@ -30,9 +29,6 @@ export class ConsumerListeComponent implements OnInit {
     this.consumerService.find(this.search).subscribe(
       (consumers: Array<Consumer>) => {
         this.consumers = consumers;
-        this.tableModel = this.consumers.map(
-          (c: Consumer) => Object.assign({ selected: false }, c)
-        );
       }
     );
   }

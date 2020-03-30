@@ -2,18 +2,18 @@
   <div>
       <mat-form-field>
         <mat-label for="login">Filtre</mat-label>
-        <input matInput [ngModel]="search"
+        <input matInput [ngModel]="search" id="filter"
             (ngModelChange)="find($event)">
       </mat-form-field>
       <span>
           <a mat-icon-button matTooltip="Créer" color="primary"
             [routerLink]="'/consumer-fiche'">
-            <mat-icon>add</mat-icon>
+            <mat-icon>person_add</mat-icon>
           </a>
         </span>
   </div>
   <div>
-    <table mat-table [dataSource]="tableModel" class="mat-elevation-z8">
+    <table mat-table [dataSource]="consumers" class="mat-elevation-z8">
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 

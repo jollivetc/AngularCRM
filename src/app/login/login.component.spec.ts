@@ -101,7 +101,7 @@ describe('LoginComponent', () => {
       expect(authenticationServiceStub.authentUser).toHaveBeenCalledWith('myLogin', 'password');
     });
   }));
-  it('navigate when the authentication is alright', async(()=>{
+  it('navigate when the authentication is alright', async(() => {
     // no need to call through as the returned Promise<boolean> is unused.
     spyOn(routerStub, 'navigateByUrl');
     // work with component and not element, no UI interaction is mandatory and it will be faster

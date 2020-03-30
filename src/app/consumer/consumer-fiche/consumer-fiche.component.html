@@ -59,11 +59,11 @@
     </p>
     <div class="buttons-bar">
       <!-- Bouton d'annulation -->
-      <button type="button" mat-icon-button color="warn" matTooltip="Annuler" (click)="cancel()">
+      <button type="button" id="cancelButton" mat-icon-button color="warn" matTooltip="Annuler" (click)="cancel()">
         <mat-icon>cancel</mat-icon>
       </button>
       <!-- Bouton de validation du formulaire -->
-      <button type="submit" mat-icon-button color="primary" matTooltip="Valider" [disabled]="!consumerForm.valid">
+      <button type="submit" id="validButton" mat-icon-button color="primary" matTooltip="Valider" [disabled]="!consumerForm.valid">
         <mat-icon>check</mat-icon>
       </button>
     </div>

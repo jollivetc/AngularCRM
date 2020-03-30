@@ -7,7 +7,7 @@ export class PhonePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     let numbers: string;
-    let formatted: string = null;
+    let formatted = '';
     if (value) {
       formatted = numbers = value.replace(/\D/g, '').substring(0, 10); // keep numbers only
       if (numbers.length > 2) {

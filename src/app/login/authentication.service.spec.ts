@@ -1,7 +1,7 @@
-import { TestBed, async } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { AuthenticationService } from './authentication.service';
-import { User } from './model/user';
+import {TestBed, waitForAsync} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {AuthenticationService} from './authentication.service';
+import {User} from './model/user';
 
 describe('AuthenticationService', () => {
   let httpTestingController: HttpTestingController;
@@ -43,14 +43,14 @@ describe('AuthenticationService', () => {
     const service: AuthenticationService = TestBed.inject(AuthenticationService);
     expect(service).toBeTruthy();
   });
-  it('should call the server and transform the response and store the user and token', async(() => {
+  it('should call the server and transform the response and store the user and token', waitForAsync(() => {
     //prepare the server response.
     const response = {
       user: fakeUser,
       token: fakeToken
     };
     const service: AuthenticationService = TestBed.inject(AuthenticationService);
-    service.authentUser('login', 'password').subscribe( data => {
+    service.authentUser('login', 'password').subscribe(data => {
       // assert treatment of response.
       expect(data).toBe(fakeUser);
       expect(service.authenticated).toBeTrue();

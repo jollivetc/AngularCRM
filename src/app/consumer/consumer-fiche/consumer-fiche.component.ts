@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
-import { ConsumerService } from '../consumer.service';
-import { Consumer } from '../model/consumer';
-import { Location } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Params} from '@angular/router';
+import {ConsumerService} from '../consumer.service';
+import {Consumer} from '../model/consumer';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'crm-consumer-fiche',
-  templateUrl: './consumer-fiche.component.html',
-  styleUrls: ['./consumer-fiche.component.scss']
+  templateUrl: './consumer-fiche.component.html'
 })
 export class ConsumerFicheComponent implements OnInit {
 
@@ -32,7 +31,7 @@ export class ConsumerFicheComponent implements OnInit {
     this.route.paramMap.subscribe(
       (params: Params) => {
         const idAsString = params.get('id');
-        if (idAsString){
+        if (idAsString) {
           const id: number = parseInt(idAsString, 10);
           this.consumerService.getById(id).subscribe(
             (c: Consumer) => this.consumerForm.patchValue(c)
@@ -41,6 +40,7 @@ export class ConsumerFicheComponent implements OnInit {
       }
     );
   }
+
   onSubmit() {
     const c: Consumer = this.consumerForm.value;
     if (c.id) {
@@ -49,6 +49,7 @@ export class ConsumerFicheComponent implements OnInit {
       this.consumerService.create(c).subscribe(() => this.location.back());
     }
   }
+
   cancel() {
     this.location.back();
   }

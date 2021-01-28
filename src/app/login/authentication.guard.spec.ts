@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { AuthenticationGuard } from './authentication.guard';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AuthenticationService } from './authentication.service';
-import { Router } from '@angular/router';
+import {AuthenticationGuard} from './authentication.guard';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AuthenticationService} from './authentication.service';
+import {Router} from '@angular/router';
 
 describe('AuthenticationGuard', () => {
   let guard: AuthenticationGuard;

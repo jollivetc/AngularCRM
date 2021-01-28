@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { DummyComponent } from './dummy.component';
+import {DummyComponent} from './dummy.component';
 
 describe('DummyComponent', () => {
   let component: DummyComponent;
   let fixture: ComponentFixture<DummyComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DummyComponent ]
+      declarations: [DummyComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('DummyComponent', () => {
   it('should emit an event when onClicked is called', () => {
     spyOn(component.clicked, 'emit');
     component.label = 'label'
-    component.onClicked({});
+    component.onClicked();
     expect(component.clicked.emit).toHaveBeenCalledWith('label a random string');
   });
 });

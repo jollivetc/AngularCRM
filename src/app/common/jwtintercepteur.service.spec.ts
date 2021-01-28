@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { JWTIntercepteurService } from './jwtintercepteur.service';
-import { AuthenticationService } from '../login/authentication.service';
-import { HttpRequest, HttpHeaders, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {JWTIntercepteurService} from './jwtintercepteur.service';
+import {AuthenticationService} from '../login/authentication.service';
+import {HttpEvent, HttpHandler, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 describe('JWTIntercepteurService', () => {
 
@@ -27,11 +27,12 @@ describe('JWTIntercepteurService', () => {
   });
   it('should add the token from the authenticationService to headers', () => {
     const spyOnToken = spyOnProperty(authenticationServiceStub, 'token', 'get').and.callThrough();
-    const httpRequest = new HttpRequest('GET', 'anUrl',{foo: 'bar'}, {headers: new HttpHeaders({anHeader: 'anHeaderValue'})});
-    const nextHandlerStub = new (class MyHandler extends HttpHandler{
-      handle(req: HttpRequest<any>): Observable<HttpEvent<any>>{
-          // do nothing with subscriber, it will be spied on.
-          return new Observable((subscriber) => {});
+    const httpRequest = new HttpRequest('GET', 'anUrl', {foo: 'bar'}, {headers: new HttpHeaders({anHeader: 'anHeaderValue'})});
+    const nextHandlerStub = new (class MyHandler extends HttpHandler {
+      handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
+        // do nothing with subscriber, it will be spied on.
+        return new Observable((subscriber) => {
+        });
       }
     })();
     const nextHandlerSpy: jasmine.Spy = spyOn(nextHandlerStub, 'handle');

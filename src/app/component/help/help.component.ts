@@ -1,23 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {Component, Input} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'crm-help',
-  templateUrl: './help.component.html',
-  styleUrls: ['./help.component.scss']
+  templateUrl: './help.component.html'
 })
-export class HelpComponent implements OnInit {
+export class HelpComponent {
 
   @Input()
   public field: FormControl = null;
 
   @Input()
   public messages: { [key: string]: string; } = null;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   get isError(): boolean {
     if (this.field == null) {
@@ -26,7 +20,7 @@ export class HelpComponent implements OnInit {
     }
     // Modifié
     return (this.field.touched || this.field.dirty) &&
-        // Et invalide
+      // Et invalide
       this.field.errors !== null;
   }
 

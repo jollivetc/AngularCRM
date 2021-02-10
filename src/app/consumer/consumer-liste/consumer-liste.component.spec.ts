@@ -1,20 +1,10 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {waitForAsync} from '@angular/core/testing';
 
 import {ConsumerListeComponent} from './consumer-liste.component';
-import {AppMaterialModule} from 'src/app/app-material.module';
-import {FormsModule} from '@angular/forms';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {ConsumerService} from '../consumer.service';
-import {Observable} from 'rxjs';
-import {Consumer} from '../model/consumer';
-import {RouterTestingModule} from '@angular/router/testing';
-import {PhonePipe} from 'src/app/common/phone.pipe';
-import {Router} from '@angular/router';
+import {of} from 'rxjs';
 
 describe('ConsumerListeComponent', () => {
   let component: ConsumerListeComponent;
-  let fixture: ComponentFixture<ConsumerListeComponent>;
   const fakeConsumer1 = {
     id: 42,
     civility: 'monsieur',
@@ -31,102 +21,58 @@ describe('ConsumerListeComponent', () => {
     email: 'email2',
     phone: 'phone2'
   };
-  const fakeFind = (param?: string): Observable<Array<Consumer>> => {
-    return new Observable((subscriber) => {
-      subscriber.next([fakeConsumer1, fakeConsumer2]);
-    });
-  };
-  const fakeFindLess = (param?: string): Observable<Array<Consumer>> => {
-    return new Observable((subscriber) => {
-      subscriber.next([fakeConsumer2]);
-    });
-  };
+  const fakeFind = () => of([fakeConsumer1, fakeConsumer2]);
+  const fakeFindLess = () => of([fakeConsumer2]);
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConsumerListeComponent, PhonePipe],
-      imports: [AppMaterialModule, FormsModule, HttpClientTestingModule, NoopAnimationsModule, RouterTestingModule],
-      providers: [
-        ConsumerService // providing the real service, need to stub the service.
-      ]
-    })
-      .compileComponents();
-  }));
+  const router = jasmine.createSpyObj('router', ['navigateByUrl']);
+  const consumerService = jasmine.createSpyObj('consumerService', ['find', 'remove']);
 
   it('should create', () => {
-    fixture = TestBed.createComponent(ConsumerListeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new ConsumerListeComponent(consumerService, router);
     expect(component).toBeTruthy();
   });
   it('should call the service to retrieve the list and display it', () => {
     // prepare a fake find method that return an observable of persons.
-    const consumerService = TestBed.inject(ConsumerService);
-    spyOn(consumerService, 'find').and.callFake(fakeFind);
+    consumerService.find.and.callFake(fakeFind);
 
-    fixture = TestBed.createComponent(ConsumerListeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new ConsumerListeComponent(consumerService, router);
+    component.ngOnInit();
     expect(consumerService.find).toHaveBeenCalledWith('');
     expect(component.consumers).toEqual([fakeConsumer1, fakeConsumer2]);
   });
   it('should call the service to filter and update the list', () => {
+    const findSpy = consumerService.find.and.callFake(fakeFind);
 
-    const consumerService = TestBed.inject(ConsumerService);
-    const findSpy = spyOn(consumerService, 'find').and.callFake(fakeFind);
-
-    fixture = TestBed.createComponent(ConsumerListeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new ConsumerListeComponent(consumerService, router);
+    component.ngOnInit();
     // change the spy programmation
     findSpy.and.callFake(fakeFindLess);
-    const filterElement = fixture.nativeElement.querySelector('input#filter');
-    filterElement.value = 'criteria';
-    filterElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
+    component.search = 'criteria';
     expect(consumerService.find).toHaveBeenCalledWith('');
+    component.ngOnInit();
     expect(consumerService.find).toHaveBeenCalledWith('criteria');
     expect(component.consumers).toEqual([fakeConsumer2]);
   });
   it('should call delete with the consumer id and then refresh the list', waitForAsync(() => {
     // prepare a fake find method that return an observable of persons.
-    const consumerService = TestBed.inject(ConsumerService);
-    const findSpy = spyOn(consumerService, 'find').and.callFake(fakeFind);
-    spyOn(consumerService, 'remove').and.callFake((id: number): Observable<void> => {
-      return new Observable((subscriber) => {
-        subscriber.next();
-      });
-    });
-    fixture = TestBed.createComponent(ConsumerListeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    // change the spy programmation
-    findSpy.and.callFake(fakeFindLess);
-    const deleteElement = fixture.nativeElement.querySelector('button.mat-warn');
-    deleteElement.click();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(consumerService.find).toHaveBeenCalledTimes(2);
-      expect(consumerService.remove).toHaveBeenCalledWith(42);
-      expect(component.consumers).toEqual([fakeConsumer2]);
-    });
+    component = new ConsumerListeComponent(consumerService, router);
+    consumerService.find.and.callFake(fakeFind);
+    consumerService.remove.and.callFake(() => of({}));
+    component.ngOnInit();
+    consumerService.find.and.callFake(fakeFindLess);
+    component.delete(fakeConsumer1);
+    expect(consumerService.remove).toHaveBeenCalledWith(42);
+    expect(component.consumers).toEqual([fakeConsumer2]);
   }));
   it('should call the navigation when details is clicked', waitForAsync(() => {
     // prepare a fake find method that return an observable of persons.
-    const consumerService = TestBed.inject(ConsumerService);
-    spyOn(consumerService, 'find').and.callFake(fakeFind);
+    consumerService.find.and.callFake(fakeFind);
     // prepare the router stub spy
-    const router = TestBed.inject(Router);
-    spyOn(router, 'navigateByUrl');
+    router.navigateByUrl.and.callThrough();
 
-    fixture = TestBed.createComponent(ConsumerListeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    const detailsElement = fixture.nativeElement.querySelector('button.mat-primary');
-    detailsElement.click();
-    fixture.detectChanges();
+    component = new ConsumerListeComponent(consumerService, router);
+    component.edit(fakeConsumer1);
+    component.ngOnInit();
     expect(router.navigateByUrl).toHaveBeenCalledWith('/consumer-fiche/42');
   }));
 });

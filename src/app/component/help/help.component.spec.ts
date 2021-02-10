@@ -5,22 +5,12 @@ import {AbstractControl, FormControl, ValidationErrors} from '@angular/forms';
 
 describe('HelpComponent', () => {
   let component: HelpComponent;
-  let fixture: ComponentFixture<HelpComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [HelpComponent]
-    })
-      .compileComponents();
-  }));
 
   beforeEach(() => {
     console.log = (value) => {
     };
 
-    fixture = TestBed.createComponent(HelpComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new HelpComponent();
   });
 
   it('should create', () => {
@@ -42,7 +32,6 @@ describe('HelpComponent', () => {
       aKey: 'aMessage'
     };
     component.field = field;
-    fixture.detectChanges();
     expect(component.errors.length).toBe(1);
     expect(component.errors[0]).toEqual('aMessage');
   });

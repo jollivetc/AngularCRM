@@ -6,27 +6,19 @@ import {HttpEvent, HttpHandler, HttpHeaders, HttpRequest} from '@angular/common/
 import {Observable} from 'rxjs';
 
 describe('JWTIntercepteurService', () => {
+  let service: JWTIntercepteurService;
+  const authService = jasmine.createSpyObj('authenticationService', [], {'token': 'aToken'});
 
-  const authenticationServiceStub: Partial<AuthenticationService> = {
-    get token(): string {
-      return 'aToken';
-    }
-  };
-
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule],
-    providers: [
-      JWTIntercepteurService,
-      {provide: AuthenticationService, useValue: authenticationServiceStub}
-    ]
-  }));
+  beforeEach(() => {
+    service = new JWTIntercepteurService(authService);
+  });
 
   it('should be created', () => {
-    const service: JWTIntercepteurService = TestBed.inject(JWTIntercepteurService);
     expect(service).toBeTruthy();
   });
+
   it('should add the token from the authenticationService to headers', () => {
-    const spyOnToken = spyOnProperty(authenticationServiceStub, 'token', 'get').and.callThrough();
+    // const spyOnToken = spyOnProperty(authenticationServiceStub, 'token', 'get').and.callThrough();
     const httpRequest = new HttpRequest('GET', 'anUrl', {foo: 'bar'}, {headers: new HttpHeaders({anHeader: 'anHeaderValue'})});
     const nextHandlerStub = new (class MyHandler extends HttpHandler {
       handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -36,10 +28,7 @@ describe('JWTIntercepteurService', () => {
       }
     })();
     const nextHandlerSpy: jasmine.Spy = spyOn(nextHandlerStub, 'handle');
-    const service: JWTIntercepteurService = TestBed.inject(JWTIntercepteurService);
     service.intercept(httpRequest, nextHandlerStub);
-    // should have retrieve the token from authentication service.
-    expect(spyOnToken).toHaveBeenCalled();
     // should have call the next handler with an HttpRequest.
     expect(nextHandlerStub.handle).toHaveBeenCalledWith(jasmine.any(HttpRequest));
     // retrieve the HttpRequest passed to next Handler

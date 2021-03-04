@@ -1,12 +1,12 @@
 <div>
-  <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" id="login-form">
     <p>
       <mat-form-field>
         <mat-label for="login">Identifiant</mat-label>
-        <input matInput id="login" type="text" formControlName="login">
+        <input formControlName="login" id="login" matInput type="text">
       </mat-form-field>
       <crm-help [field]="loginForm.get('login')"
-                       [messages]="{
+                [messages]="{
                          required: 'Entrez votre login',
                          minlength: 'Le login doit avoir un minimum de 3 caractères.'
                        }"></crm-help>
@@ -14,14 +14,15 @@
     <p>
       <mat-form-field>
         <mat-label for="password">Mot de passe</mat-label>
-        <input matInput id="password" type="password" formControlName="password">
+        <input formControlName="password" id="password" matInput type="password">
       </mat-form-field>
       <crm-help [field]="loginForm.get('password')"
-                      [messages]="{required: 'Entrez votre mot de passe'}"></crm-help>
+                [messages]="{required: 'Entrez votre mot de passe'}"></crm-help>
     </p>
     <p>
-      <button type="submit" [disabled]="!loginForm.valid" mat-button
-          color="primary">Valider</button>
-   </p>
+      <button [disabled]="!loginForm.valid" color="primary" mat-button
+              type="submit">Valider
+      </button>
+    </p>
   </form>
 </div>

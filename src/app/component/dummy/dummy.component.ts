@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'crm-dummy',
   templateUrl: './dummy.component.html',
   styleUrls: ['./dummy.component.scss']
 })
-export class DummyComponent implements OnInit {
+export class DummyComponent {
 
   @Input()
   public label = '';
@@ -13,12 +13,7 @@ export class DummyComponent implements OnInit {
   @Output()
   public clicked = new EventEmitter<string>();
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  onClicked($event): void {
+  onClicked(): void {
     this.clicked.emit(this.label + ' a random string');
   }
 

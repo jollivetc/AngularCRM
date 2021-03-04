@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { ConsumerListeComponent } from './consumer-liste.component';
-import { AppMaterialModule } from 'src/app/app-material.module';
-import { FormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ConsumerService } from '../consumer.service';
-import { Observable } from 'rxjs';
-import { Consumer } from '../model/consumer';
-import { RouterTestingModule } from '@angular/router/testing';
-import { PhonePipe } from 'src/app/common/phone.pipe';
-import { UrlTree, NavigationExtras, Router } from '@angular/router';
+import {ConsumerListeComponent} from './consumer-liste.component';
+import {AppMaterialModule} from 'src/app/app-material.module';
+import {FormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {ConsumerService} from '../consumer.service';
+import {Observable} from 'rxjs';
+import {Consumer} from '../model/consumer';
+import {RouterTestingModule} from '@angular/router/testing';
+import {PhonePipe} from 'src/app/common/phone.pipe';
+import {Router} from '@angular/router';
 
 describe('ConsumerListeComponent', () => {
   let component: ConsumerListeComponent;
@@ -31,13 +31,6 @@ describe('ConsumerListeComponent', () => {
     email: 'email2',
     phone: 'phone2'
   };
-  const routerStub = {
-    navigateByUrl: (url: string | UrlTree, extras?: NavigationExtras): Promise<boolean> => {
-      return new Promise((resolve, reject) => {
-        resolve(true);
-      });
-    }
-  };
   const fakeFind = (param?: string): Observable<Array<Consumer>> => {
     return new Observable((subscriber) => {
       subscriber.next([fakeConsumer1, fakeConsumer2]);
@@ -49,16 +42,15 @@ describe('ConsumerListeComponent', () => {
     });
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConsumerListeComponent, PhonePipe ],
-      imports: [AppMaterialModule, FormsModule, HttpClientTestingModule, NoopAnimationsModule],
+      declarations: [ConsumerListeComponent, PhonePipe],
+      imports: [AppMaterialModule, FormsModule, HttpClientTestingModule, NoopAnimationsModule, RouterTestingModule],
       providers: [
-        ConsumerService, // providing the real service, need to stub the service.
-        {provide: Router, useValue: routerStub}
+        ConsumerService // providing the real service, need to stub the service.
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   it('should create', () => {
@@ -97,12 +89,14 @@ describe('ConsumerListeComponent', () => {
     expect(consumerService.find).toHaveBeenCalledWith('criteria');
     expect(component.consumers).toEqual([fakeConsumer2]);
   });
-  it('should call delete with the consumer id and then refresh the list', async(() => {
+  it('should call delete with the consumer id and then refresh the list', waitForAsync(() => {
     // prepare a fake find method that return an observable of persons.
     const consumerService = TestBed.inject(ConsumerService);
     const findSpy = spyOn(consumerService, 'find').and.callFake(fakeFind);
     spyOn(consumerService, 'remove').and.callFake((id: number): Observable<void> => {
-      return new Observable((subscriber) => {subscriber.next(); });
+      return new Observable((subscriber) => {
+        subscriber.next();
+      });
     });
     fixture = TestBed.createComponent(ConsumerListeComponent);
     component = fixture.componentInstance;
@@ -118,12 +112,13 @@ describe('ConsumerListeComponent', () => {
       expect(component.consumers).toEqual([fakeConsumer2]);
     });
   }));
-  it('should call the navigation when details is clicked', async(() => {
+  it('should call the navigation when details is clicked', waitForAsync(() => {
     // prepare a fake find method that return an observable of persons.
     const consumerService = TestBed.inject(ConsumerService);
     spyOn(consumerService, 'find').and.callFake(fakeFind);
     // prepare the router stub spy
-    spyOn(routerStub, 'navigateByUrl');
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigateByUrl');
 
     fixture = TestBed.createComponent(ConsumerListeComponent);
     component = fixture.componentInstance;
@@ -132,6 +127,6 @@ describe('ConsumerListeComponent', () => {
     const detailsElement = fixture.nativeElement.querySelector('button.mat-primary');
     detailsElement.click();
     fixture.detectChanges();
-    expect(routerStub.navigateByUrl).toHaveBeenCalledWith('/consumer-fiche/42');
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/consumer-fiche/42');
   }));
 });

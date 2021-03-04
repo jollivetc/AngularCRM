@@ -1,6 +1,5 @@
-
 <p>
   home works!
 </p>
-<input type="text" [ngModel]="phone | phone:'param1'" maxlength="14"
-         (ngModelChange)="phone=$event;">
+<input (ngModelChange)="phone=$event;" [ngModel]="phone | phone:'param1'" maxlength="14"
+       type="text">

@@ -1,21 +1,23 @@
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HelpComponent } from './help.component';
-import { FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
+import {HelpComponent} from './help.component';
+import {AbstractControl, FormControl, ValidationErrors} from '@angular/forms';
 
 describe('HelpComponent', () => {
   let component: HelpComponent;
   let fixture: ComponentFixture<HelpComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelpComponent ]
+      declarations: [HelpComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
+    console.log = (value) => {
+    };
+
     fixture = TestBed.createComponent(HelpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -33,10 +35,11 @@ describe('HelpComponent', () => {
       aKey: 'validator message'
     };
   }
+
   it('should return an array of message', () => {
     const field = new FormControl('', [alwaysInErrorValidator]);
     component.messages = {
-      aKey : 'aMessage'
+      aKey: 'aMessage'
     };
     component.field = field;
     fixture.detectChanges();

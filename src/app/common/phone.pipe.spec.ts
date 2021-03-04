@@ -1,4 +1,4 @@
-import { PhonePipe } from './phone.pipe';
+import {PhonePipe} from './phone.pipe';
 
 describe('PhonePipe', () => {
   const pipe = new PhonePipe();

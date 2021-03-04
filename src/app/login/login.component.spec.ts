@@ -1,15 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from '../app-material.module';
-import { HelpComponent } from '../component/help/help.component';
-import { LoginComponent } from './login.component';
-import { AuthenticationService } from './authentication.service';
-import { Observable, Subscriber } from 'rxjs';
-import { User } from './model/user';
-import { Router, UrlTree, NavigationExtras } from '@angular/router';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {AppMaterialModule} from '../app-material.module';
+import {HelpComponent} from '../component/help/help.component';
+import {LoginComponent} from './login.component';
+import {AuthenticationService} from './authentication.service';
+import {Observable, Subscriber} from 'rxjs';
+import {User} from './model/user';
+import {NavigationExtras, Router, UrlTree} from '@angular/router';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -54,7 +53,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         AppMaterialModule,
@@ -62,13 +61,13 @@ describe('LoginComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule
       ],
-      declarations: [ LoginComponent, HelpComponent ],
+      declarations: [LoginComponent, HelpComponent],
       providers: [
         {provide: AuthenticationService, useValue: authenticationServiceStub},
         {provide: Router, useValue: routerStub}
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -91,7 +90,7 @@ describe('LoginComponent', () => {
     expect(buttonElement.disabled).toBeFalse();
   });
 
-  it('should call the authenticationService with the parameters', async(() => {
+  it('should call the authenticationService with the parameters', waitForAsync(() => {
     // need to callThrough to get an observable to be subscribed to.
     spyOn(authenticationServiceStub, 'authentUser').and.callThrough();
     fillForm();
@@ -101,7 +100,7 @@ describe('LoginComponent', () => {
       expect(authenticationServiceStub.authentUser).toHaveBeenCalledWith('myLogin', 'password');
     });
   }));
-  it('navigate when the authentication is alright', async(() => {
+  it('navigate when the authentication is alright', waitForAsync(() => {
     // no need to call through as the returned Promise<boolean> is unused.
     spyOn(routerStub, 'navigateByUrl');
     // work with component and not element, no UI interaction is mandatory and it will be faster

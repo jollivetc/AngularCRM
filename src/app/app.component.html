@@ -1,25 +1,25 @@
 <div>
-  <mat-toolbar color="primary"  >
+  <mat-toolbar color="primary">
     <span>AngularCRM</span>
     <span class="fill-remaining-space"></span>
     <span>
-      <a mat-icon-button matTooltip="Accueil"
-        [routerLink]="'/home'"
-        [routerLinkActive]="'is-active'">
+      <a [routerLinkActive]="'is-active'" [routerLink]="'/home'"
+         mat-icon-button
+         matTooltip="Accueil">
         <mat-icon>home</mat-icon>
       </a>
     </span>
     <span>
-      <a mat-icon-button matTooltip="Clients"
-        [routerLink]="'/consumer'"
-        [routerLinkActive]="'is-active'">
+      <a [routerLinkActive]="'is-active'" [routerLink]="'/consumer'"
+         mat-icon-button
+         matTooltip="Clients">
         <mat-icon>list</mat-icon>
       </a>
     </span>
     <span>
-      <a mat-icon-button matTooltip="logout"
-        [routerLink]="'/login'"
-        [routerLinkActive]="'is-active'">
+      <a [routerLinkActive]="'is-active'" [routerLink]="'/login'"
+         mat-icon-button
+         matTooltip="logout">
         <mat-icon>cancel</mat-icon>
       </a>
     </span>

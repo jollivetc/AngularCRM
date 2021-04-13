@@ -39,7 +39,7 @@ export class ConsumerListeComponent implements OnInit {
   }
 
   delete(consumer: Consumer): void {
-    this.consumerService.remove(consumer.id).subscribe(
+    this.consumerService.remove(consumer.id!).subscribe(
       () => this.find());
   }
 }

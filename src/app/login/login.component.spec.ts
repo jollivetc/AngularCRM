@@ -14,7 +14,9 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authenticationServiceStub: Partial<AuthenticationService>;
+  //let authenticationServiceStub = jasmine.createSpyObj('AuthenticationService', ['authentUser', 'isAuthenticated', 'logout']);
   let routerStub: Partial<Router>;
+  //let routerStub = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
   authenticationServiceStub = {
     authentUser: (login: string, password: string): Observable<User> => {
@@ -27,10 +29,10 @@ describe('LoginComponent', () => {
         });
       });
     },
-    get authenticated(): boolean {
+    get isAuthenticated(): boolean {
       return true;
     },
-    disconnect: () => {
+    logout: () => {
       // nothing to do in stub
     }
   };
@@ -91,8 +93,7 @@ describe('LoginComponent', () => {
   });
 
   it('should call the authenticationService with the parameters', waitForAsync(() => {
-    // need to callThrough to get an observable to be subscribed to.
-    spyOn(authenticationServiceStub, 'authentUser').and.callThrough();
+    spyOnAllFunctions(authenticationServiceStub);
     fillForm();
     const buttonElement = fixture.nativeElement.querySelector('button');
     buttonElement.click();
@@ -101,8 +102,7 @@ describe('LoginComponent', () => {
     });
   }));
   it('navigate when the authentication is alright', waitForAsync(() => {
-    // no need to call through as the returned Promise<boolean> is unused.
-    spyOn(routerStub, 'navigateByUrl');
+    spyOnAllFunctions(routerStub);
     // work with component and not element, no UI interaction is mandatory and it will be faster
     component.onSubmit();
     fixture.whenStable().then(() => {
@@ -110,13 +110,14 @@ describe('LoginComponent', () => {
     });
   }));
   it('should call the disconnect method of the service in constructor if the user is authenticated', () => {
-    spyOn(authenticationServiceStub, 'disconnect');
-    const spyOnAuthenticated = spyOnProperty(authenticationServiceStub, 'authenticated').and.callThrough();
+    const spyOnAuthenticated = spyOnProperty(authenticationServiceStub, 'isAuthenticated').and.callThrough();
+    spyOnAllFunctions(authenticationServiceStub);
+
     // need to recreate the component to call the spy and mock
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    expect(authenticationServiceStub.disconnect).toHaveBeenCalled();
+    expect(authenticationServiceStub.logout).toHaveBeenCalled();
     expect(spyOnAuthenticated).toHaveBeenCalled();
   });
 });

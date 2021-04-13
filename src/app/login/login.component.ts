@@ -13,8 +13,8 @@ export class LoginComponent {
   public loginForm: FormGroup;
 
   constructor(private authentService: AuthenticationService, private router: Router) {
-    if (this.authentService.authenticated) {
-      this.authentService.disconnect();
+    if (this.authentService.isAuthenticated) {
+      this.authentService.logout();
     }
     // Login form definition
     this.loginForm = new FormGroup({
@@ -41,7 +41,7 @@ export class LoginComponent {
 function checkPassword(c: AbstractControl): ValidationErrors | null {
   if (c.value.length !== 0 && c.value.length < 5) {
     return {
-      checkPassword: 'Erreur controle password'
+      length5Error: 'Erreur controle password'
     };
   }
   return null;

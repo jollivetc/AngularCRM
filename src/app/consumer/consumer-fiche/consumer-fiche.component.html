@@ -6,7 +6,7 @@
         <mat-option value="Mme">Mme</mat-option>
       </mat-select>
     </mat-form-field>
-    <crm-help [field]="consumerForm.get('civility')"
+    <crm-help [field]="consumerForm.get('civility')!"
               [messages]="{required: 'Choisissez une civilité'}">
     </crm-help>
     <p>
@@ -14,7 +14,7 @@
         <mat-label for="firstname">Prénom</mat-label>
         <input formControlName="firstname" id="firstname" matInput type="text">
       </mat-form-field>
-      <crm-help [field]="consumerForm.get('firstname')"
+      <crm-help [field]="consumerForm.get('firstname')!"
                 [messages]="{
                   required: 'Entrez le prénom',
                   minlength: 'Le prénom doit avoir un minimum de 3 caractères.'
@@ -26,7 +26,7 @@
         <mat-label for="lastname">Nom</mat-label>
         <input formControlName="lastname" id="lastname" matInput type="text">
       </mat-form-field>
-      <crm-help [field]="consumerForm.get('lastname')"
+      <crm-help [field]="consumerForm.get('lastname')!"
                 [messages]="{
                   required: 'Entrez le nom',
                   minlength: 'Le nom doit avoir un minimum de 3 caractères.'
@@ -38,7 +38,7 @@
         <mat-label for="email">Email</mat-label>
         <input formControlName="email" id="email" matInput type="text">
       </mat-form-field>
-      <crm-help [field]="consumerForm.get('email')"
+      <crm-help [field]="consumerForm.get('email')!"
                 [messages]="{
                   required: 'Entrez l\'email',
                   email: 'Format d\'email incorrect'
@@ -50,7 +50,7 @@
         <mat-label for="phone">Téléphone</mat-label>
         <input formControlName="phone" id="phone" matInput maxlength="10" type="text">
       </mat-form-field>
-      <crm-help [field]="consumerForm.get('phone')"
+      <crm-help [field]="consumerForm.get('phone')!"
                 [messages]="{
                   required: 'Entrez le téléphone',
                   minlength: 'Le téléphone doit avoir un minimum de 10 caractères.'

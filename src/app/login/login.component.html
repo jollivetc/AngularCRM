@@ -5,7 +5,7 @@
         <mat-label for="login">Identifiant</mat-label>
         <input formControlName="login" id="login" matInput type="text">
       </mat-form-field>
-      <crm-help [field]="loginForm.get('login')"
+      <crm-help [field]="loginForm.get('login')!"
                 [messages]="{
                          required: 'Entrez votre login',
                          minlength: 'Le login doit avoir un minimum de 3 caractères.'
@@ -16,8 +16,11 @@
         <mat-label for="password">Mot de passe</mat-label>
         <input formControlName="password" id="password" matInput type="password">
       </mat-form-field>
-      <crm-help [field]="loginForm.get('password')"
-                [messages]="{required: 'Entrez votre mot de passe'}"></crm-help>
+      <crm-help [field]="loginForm.get('password')!"
+                [messages]="{
+                  required: 'Champs obligatoire',
+                  length5Error: 'doit faire au moins 5 caractères'
+                }"></crm-help>
     </p>
     <p>
       <button [disabled]="!loginForm.valid" color="primary" mat-button

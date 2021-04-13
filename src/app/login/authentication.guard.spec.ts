@@ -4,13 +4,14 @@ import {AuthenticationGuard} from './authentication.guard';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AuthenticationService} from './authentication.service';
-import {Router} from '@angular/router';
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlSegment} from '@angular/router';
 
 describe('AuthenticationGuard', () => {
   let guard: AuthenticationGuard;
   let authenticationService: AuthenticationService;
   let router: Router;
-
+  const activatedRouteSnapshot: Partial<ActivatedRouteSnapshot> = {};
+  const routerStateSnapshot: Partial<RouterStateSnapshot> = {};
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -28,17 +29,17 @@ describe('AuthenticationGuard', () => {
     expect(guard).toBeTruthy();
   });
   it('should return true if the user is authenticated', () => {
-    spyOnProperty(authenticationService, 'authenticated').and.returnValue(true);
-    // can pass null as parameters are unused
+    spyOnProperty(authenticationService, 'isAuthenticated').and.returnValue(true);
     // guard return no observable so no need to subscribe or manage async.
-    expect(guard.canActivate(null, null)).toBeTrue();
+    // @ts-ignore
+    expect(guard.canActivate(activatedRouteSnapshot, routerStateSnapshot)).toBeTrue();
   });
   it('should return false if the user is not authenticated and call navigation', () => {
-    spyOnProperty(authenticationService, 'authenticated').and.returnValue(false);
+    spyOnProperty(authenticationService, 'isAuthenticated').and.returnValue(false);
     spyOn(router, 'navigateByUrl');
-    // can pass null as parameters are unused
     // guard return no observable so no need to subscribe or manage async.
-    expect(guard.canActivate(null, null)).toBeFalse();
+    // @ts-ignore
+    expect(guard.canActivate(activatedRouteSnapshot, routerStateSnapshot)).toBeFalse();
     // with first call in expect, router should have been called
     expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
   });

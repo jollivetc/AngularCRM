@@ -1,69 +1,57 @@
-import {Injectable} from '@angular/core';
-import {User} from './model/user';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { User } from './model/user';
 
 const USER_STORAGE_KEY = 'angular-crm.user';
-const TOKEN_STORAGE_KEY = 'angular-crm-token';
+const JWT_STORAGE_KEY = 'angular-crm.jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private httpClient: HttpClient) {
-    // Check user cnnected ?
-    if (sessionStorage.getItem(USER_STORAGE_KEY) !== null) {
-      this._currentUser = JSON.parse(sessionStorage.getItem(USER_STORAGE_KEY));
-      this._token = sessionStorage.getItem(TOKEN_STORAGE_KEY);
+  private currentUser?: User;
+  private jwtToken?: string;
+
+  constructor(private http: HttpClient) {
+    if(sessionStorage.getItem(USER_STORAGE_KEY)){
+      this.currentUser = JSON.parse(sessionStorage.getItem(USER_STORAGE_KEY)!);
+      this.jwtToken = sessionStorage.getItem(JWT_STORAGE_KEY)!;
     }
+   }
+
+  get isAuthenticated(): boolean {
+    return !!this.currentUser;
   }
 
-  private _currentUser: User = null;
-
-  public get currentUser(): User {
-    return this._currentUser;
+  get token(): string|undefined {
+    return this.jwtToken;
   }
 
-  private _token: string = null;
+  authentUser(login: string, password: string): Observable<User> {
+    return this.http.post<AuthentResponse>('/api/auth/login',{email:login,password}).pipe(
+      map((response:AuthentResponse)=>{
+        this.currentUser = response.user;
+        this.jwtToken = response.token;
 
-  public get token(): string {
-    return this._token;
+        sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(this.currentUser));
+        sessionStorage.setItem(JWT_STORAGE_KEY, this.jwtToken);
+        return this.currentUser;
+      })
+    );
   }
 
-  public get authenticated(): boolean {
-    return this.currentUser !== null;
-  }
-
-  public authentUser(login: string, password: string): Observable<User> {
-    return this.httpClient.post('/api/auth/login', {email: login, password})
-      .pipe(
-        map(
-          (result: AuthentResponse) => {
-            console.log('result', result);
-
-            this._currentUser = result.user;
-            this._token = result.token;
-
-            sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(this._currentUser));
-            sessionStorage.setItem(TOKEN_STORAGE_KEY, this._token);
-
-            return this._currentUser;
-          }
-        )
-      );
-  }
-
-  public disconnect(): void {
-    this._currentUser = null;
-    this._token = null;
+  logout(): void {
+    this.currentUser = undefined;
+    this.jwtToken = undefined;
     sessionStorage.removeItem(USER_STORAGE_KEY);
-    sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+    sessionStorage.removeItem(JWT_STORAGE_KEY)
   }
 }
 
 interface AuthentResponse {
-  user: User;
-  token: string;
+  user: User,
+  token: string
 }

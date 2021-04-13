@@ -6,7 +6,7 @@ import {User} from './model/user';
 describe('AuthenticationService', () => {
   let httpTestingController: HttpTestingController;
   const USER_STORAGE_KEY = 'angular-crm.user';
-  const TOKEN_STORAGE_KEY = 'angular-crm-token';
+  const TOKEN_STORAGE_KEY = 'angular-crm.jwt';
   const fakeUser: User = {
     id: 42,
     login: 'aLogin',
@@ -14,9 +14,9 @@ describe('AuthenticationService', () => {
     firstname: 'firstname'
   };
   const fakeToken = 'aToken';
-  let store = {};
+  let store: {[key:string]: string | null} = {};
   const mockSessionStorage = {
-    getItem: (key: string): string => {
+    getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
     setItem: (key: string, value: string) => {
@@ -53,7 +53,7 @@ describe('AuthenticationService', () => {
     service.authentUser('login', 'password').subscribe(data => {
       // assert treatment of response.
       expect(data).toBe(fakeUser);
-      expect(service.authenticated).toBeTrue();
+      expect(service.isAuthenticated).toBeTrue();
       expect(service.token).toBe(fakeToken);
     });
     // check the query sent.
@@ -67,17 +67,17 @@ describe('AuthenticationService', () => {
   }));
 
   it('should retrieve existing user and token from the sessionStorage and expose them on creation', () => {
-    spyOn(sessionStorage, 'getItem').and.callFake((key: string): string => {
+    spyOn(sessionStorage, 'getItem').and.callFake((key: string): string | null => {
       if (key === USER_STORAGE_KEY) {
         return JSON.stringify(fakeUser);
       }
       if (key === TOKEN_STORAGE_KEY) {
         return fakeToken;
       }
+      return null;
     });
     const service: AuthenticationService = TestBed.inject(AuthenticationService);
     expect(service.token).toEqual(fakeToken);
-    expect(service.currentUser).toEqual(fakeUser);
   });
   it('should clean the sessionStorage and attributes on disconnect', () => {
     // set Items in mockSessionStorage
@@ -87,10 +87,9 @@ describe('AuthenticationService', () => {
     spyOn(sessionStorage, 'removeItem').and.callFake(mockSessionStorage.removeItem);
     // get the service
     const service: AuthenticationService = TestBed.inject(AuthenticationService);
-    service.disconnect();
-    expect(service.authenticated).toBeFalse();
-    expect(service.token).toBeNull();
-    expect(service.currentUser).toBeNull();
+    service.logout();
+    expect(service.isAuthenticated).toBeFalse();
+    expect(service.token).toBeUndefined();
     expect(mockSessionStorage.getItem(USER_STORAGE_KEY)).toBeNull();
     expect(mockSessionStorage.getItem(TOKEN_STORAGE_KEY)).toBeNull();
   });

@@ -14,7 +14,9 @@ describe('ConsumerFicheComponent', () => {
   let component: ConsumerFicheComponent;
   let fixture: ComponentFixture<ConsumerFicheComponent>;
 
-  const consumerService = jasmine.createSpyObj('consumerService', ['getById']);
+  const consumerService = {
+    getById: jest.fn()
+  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -36,7 +38,7 @@ describe('ConsumerFicheComponent', () => {
   }));
 
   beforeEach(async () => {
-    consumerService.getById.and.returnValue(of({}));
+    consumerService.getById.mockReturnValue(of({}));
 
     fixture = TestBed.createComponent(ConsumerFicheComponent);
     component = fixture.componentInstance;
@@ -48,7 +50,7 @@ describe('ConsumerFicheComponent', () => {
   });
   it('should display the form with desactivated validate button', () => {
     const validButton = fixture.nativeElement.querySelector('#validButton');
-    expect(validButton.disabled).toBeTrue();
+    expect(validButton.disabled).toBeTruthy();
   });
   it('should call to load data and expose it if there is an id in path', waitForAsync(() => {
     // prepare a mock for the consumerService.

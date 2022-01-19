@@ -29,17 +29,17 @@ describe('AuthenticationGuard', () => {
     expect(guard).toBeTruthy();
   });
   it('should return true if the user is authenticated', () => {
-    spyOnProperty(authenticationService, 'isAuthenticated').and.returnValue(true);
+    jest.spyOn(authenticationService, 'isAuthenticated', 'get').mockReturnValue(true);
     // guard return no observable so no need to subscribe or manage async.
     // @ts-ignore
-    expect(guard.canActivate(activatedRouteSnapshot, routerStateSnapshot)).toBeTrue();
+    expect(guard.canActivate(activatedRouteSnapshot, routerStateSnapshot)).toBeTruthy();
   });
   it('should return false if the user is not authenticated and call navigation', () => {
-    spyOnProperty(authenticationService, 'isAuthenticated').and.returnValue(false);
-    spyOn(router, 'navigateByUrl');
+    jest.spyOn(authenticationService, 'isAuthenticated', 'get').mockReturnValue(false);
+    jest.spyOn(router, 'navigateByUrl');
     // guard return no observable so no need to subscribe or manage async.
     // @ts-ignore
-    expect(guard.canActivate(activatedRouteSnapshot, routerStateSnapshot)).toBeFalse();
+    expect(guard.canActivate(activatedRouteSnapshot, routerStateSnapshot)).toBeFalsy();
     // with first call in expect, router should have been called
     expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
   });

@@ -1,4 +1,4 @@
-import 'jest-preset-angular';
+import 'jest-preset-angular/setup-jest';
 
 /* global mocks for jsdom */
 const mock = () => {
@@ -25,3 +25,8 @@ Object.defineProperty(document.body.style, 'transform', {
     };
   },
 });
+
+
+console.error = jest.fn()
+console.log = jest.fn()
+console.info = jest.fn()

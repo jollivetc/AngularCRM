@@ -53,7 +53,7 @@ describe('AuthenticationService', () => {
     service.authentUser('login', 'password').subscribe(data => {
       // assert treatment of response.
       expect(data).toBe(fakeUser);
-      expect(service.isAuthenticated).toBeTrue();
+      expect(service.isAuthenticated).toBeTruthy();
       expect(service.token).toBe(fakeToken);
     });
     // check the query sent.
@@ -67,7 +67,7 @@ describe('AuthenticationService', () => {
   }));
 
   it('should retrieve existing user and token from the sessionStorage and expose them on creation', () => {
-    spyOn(sessionStorage, 'getItem').and.callFake((key: string): string | null => {
+    jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string): string | null => {
       if (key === USER_STORAGE_KEY) {
         return JSON.stringify(fakeUser);
       }
@@ -84,11 +84,11 @@ describe('AuthenticationService', () => {
     mockSessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(fakeUser));
     mockSessionStorage.setItem(TOKEN_STORAGE_KEY, fakeToken);
     // mock the real SessionStorage
-    spyOn(sessionStorage, 'removeItem').and.callFake(mockSessionStorage.removeItem);
+    jest.spyOn(sessionStorage, 'removeItem').mockImplementation(mockSessionStorage.removeItem);
     // get the service
     const service: AuthenticationService = TestBed.inject(AuthenticationService);
     service.logout();
-    expect(service.isAuthenticated).toBeFalse();
+    expect(service.isAuthenticated).toBeFalsy();
     expect(service.token).toBeUndefined();
     expect(mockSessionStorage.getItem(USER_STORAGE_KEY)).toBeNull();
     expect(mockSessionStorage.getItem(TOKEN_STORAGE_KEY)).toBeNull();

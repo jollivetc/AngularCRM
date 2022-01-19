@@ -26,7 +26,7 @@ describe('JWTIntercepteurService', () => {
     expect(service).toBeTruthy();
   });
   it('should add the token from the authenticationService to headers', () => {
-    const spyOnToken = spyOnProperty(authenticationServiceStub, 'token', 'get').and.callThrough();
+    const spyOnToken = jest.spyOn(authenticationServiceStub, 'token', 'get');
     const httpRequest = new HttpRequest('GET', 'anUrl', {foo: 'bar'}, {headers: new HttpHeaders({anHeader: 'anHeaderValue'})});
     const nextHandlerStub = new (class MyHandler extends HttpHandler {
       handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -35,15 +35,15 @@ describe('JWTIntercepteurService', () => {
         });
       }
     })();
-    const nextHandlerSpy: jasmine.Spy = spyOn(nextHandlerStub, 'handle');
+    const nextHandlerSpy = jest.spyOn(nextHandlerStub, 'handle');
     const service: JWTIntercepteurService = TestBed.inject(JWTIntercepteurService);
     service.intercept(httpRequest, nextHandlerStub);
     // should have retrieve the token from authentication service.
     expect(spyOnToken).toHaveBeenCalled();
     // should have call the next handler with an HttpRequest.
-    expect(nextHandlerStub.handle).toHaveBeenCalledWith(jasmine.any(HttpRequest));
+    expect(nextHandlerStub.handle).toHaveBeenCalledWith(expect.any(HttpRequest));
     // retrieve the HttpRequest passed to next Handler
-    const nextHttpRequest = (nextHandlerSpy.calls.argsFor(0)[0] as HttpRequest<any>);
+    const nextHttpRequest = (nextHandlerSpy.mock.calls[0][0] as HttpRequest<any>);
     // should have added an header with token
     expect(nextHttpRequest.headers.get('Authorization')).toEqual('Bearer aToken');
     // should have keep existing headers

@@ -10,7 +10,7 @@ import {Observable} from 'rxjs';
 import {Consumer} from '../model/consumer';
 import {RouterTestingModule} from '@angular/router/testing';
 import {PhonePipe} from 'src/app/common/phone.pipe';
-import {Router} from '@angular/router';
+import {Router, UrlTree} from '@angular/router';
 
 describe('ConsumerListeComponent', () => {
   let component: ConsumerListeComponent;
@@ -62,7 +62,7 @@ describe('ConsumerListeComponent', () => {
   it('should call the service to retrieve the list and display it', () => {
     // prepare a fake find method that return an observable of persons.
     const consumerService = TestBed.inject(ConsumerService);
-    spyOn(consumerService, 'find').and.callFake(fakeFind);
+    jest.spyOn(consumerService, 'find').mockImplementation(fakeFind);
 
     fixture = TestBed.createComponent(ConsumerListeComponent);
     component = fixture.componentInstance;
@@ -73,13 +73,13 @@ describe('ConsumerListeComponent', () => {
   it('should call the service to filter and update the list', () => {
 
     const consumerService = TestBed.inject(ConsumerService);
-    const findSpy = spyOn(consumerService, 'find').and.callFake(fakeFind);
+    const findSpy = jest.spyOn(consumerService, 'find').mockImplementation(fakeFind);
 
     fixture = TestBed.createComponent(ConsumerListeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     // change the spy programmation
-    findSpy.and.callFake(fakeFindLess);
+    findSpy.mockImplementation(fakeFindLess);
     const filterElement = fixture.nativeElement.querySelector('input#filter');
     filterElement.value = 'criteria';
     filterElement.dispatchEvent(new Event('input'));
@@ -92,8 +92,8 @@ describe('ConsumerListeComponent', () => {
   it('should call delete with the consumer id and then refresh the list', waitForAsync(() => {
     // prepare a fake find method that return an observable of persons.
     const consumerService = TestBed.inject(ConsumerService);
-    const findSpy = spyOn(consumerService, 'find').and.callFake(fakeFind);
-    spyOn(consumerService, 'remove').and.callFake((id: number): Observable<void> => {
+    const findSpy = jest.spyOn(consumerService, 'find').mockImplementation(fakeFind);
+    jest.spyOn(consumerService, 'remove').mockImplementation((id: number): Observable<void> => {
       return new Observable((subscriber) => {
         subscriber.next();
       });
@@ -102,7 +102,7 @@ describe('ConsumerListeComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     // change the spy programmation
-    findSpy.and.callFake(fakeFindLess);
+    findSpy.mockImplementation(fakeFindLess);
     const deleteElement = fixture.nativeElement.querySelector('button.mat-warn');
     deleteElement.click();
     fixture.detectChanges();
@@ -115,10 +115,10 @@ describe('ConsumerListeComponent', () => {
   it('should call the navigation when details is clicked', waitForAsync(() => {
     // prepare a fake find method that return an observable of persons.
     const consumerService = TestBed.inject(ConsumerService);
-    spyOn(consumerService, 'find').and.callFake(fakeFind);
+    jest.spyOn(consumerService, 'find').mockImplementation(fakeFind);
     // prepare the router stub spy
     const router = TestBed.inject(Router);
-    spyOn(router, 'navigateByUrl');
+    jest.spyOn(router, 'navigateByUrl').mockImplementation(jest.fn());
 
     fixture = TestBed.createComponent(ConsumerListeComponent);
     component = fixture.componentInstance;

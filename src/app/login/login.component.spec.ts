@@ -6,7 +6,7 @@ import {AppMaterialModule} from '../app-material.module';
 import {HelpComponent} from '../component/help/help.component';
 import {LoginComponent} from './login.component';
 import {AuthenticationService} from './authentication.service';
-import {Observable, Subscriber} from 'rxjs';
+import {Observable, Subscriber, of} from 'rxjs';
 import {User} from './model/user';
 import {NavigationExtras, Router, UrlTree} from '@angular/router';
 
@@ -14,9 +14,7 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authenticationServiceStub: Partial<AuthenticationService>;
-  //let authenticationServiceStub = jasmine.createSpyObj('AuthenticationService', ['authentUser', 'isAuthenticated', 'logout']);
   let routerStub: Partial<Router>;
-  //let routerStub = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
   authenticationServiceStub = {
     authentUser: (login: string, password: string): Observable<User> => {
@@ -83,17 +81,22 @@ describe('LoginComponent', () => {
   });
   it('should disable login button on creation', () => {
     const element = fixture.nativeElement;
-    expect(element.querySelector('button').disabled).toBeTrue();
+    expect(element.querySelector('button').disabled).toBeTruthy();
   });
 
   it('should activate login button when form is valid', () => {
     const buttonElement = fixture.nativeElement.querySelector('button');
     fillForm();
-    expect(buttonElement.disabled).toBeFalse();
+    expect(buttonElement.disabled).toBeFalsy();
   });
 
   it('should call the authenticationService with the parameters', waitForAsync(() => {
-    spyOnAllFunctions(authenticationServiceStub);
+    jest.spyOn(authenticationServiceStub, 'authentUser').mockReturnValue(of({
+      id: 12,
+      login: 'myLogin',
+      lastname: 'Doe',
+      firstname: 'John'
+    }));
     fillForm();
     const buttonElement = fixture.nativeElement.querySelector('button');
     buttonElement.click();
@@ -102,7 +105,7 @@ describe('LoginComponent', () => {
     });
   }));
   it('navigate when the authentication is alright', waitForAsync(() => {
-    spyOnAllFunctions(routerStub);
+    jest.spyOn(routerStub, 'navigateByUrl').mockImplementation(jest.fn());
     // work with component and not element, no UI interaction is mandatory and it will be faster
     component.onSubmit();
     fixture.whenStable().then(() => {
@@ -110,8 +113,8 @@ describe('LoginComponent', () => {
     });
   }));
   it('should call the disconnect method of the service in constructor if the user is authenticated', () => {
-    const spyOnAuthenticated = spyOnProperty(authenticationServiceStub, 'isAuthenticated').and.callThrough();
-    spyOnAllFunctions(authenticationServiceStub);
+    const spyOnAuthenticated = jest.spyOn(authenticationServiceStub, 'isAuthenticated', 'get');
+    jest.spyOn(authenticationServiceStub, 'logout').mockImplementation(jest.fn());
 
     // need to recreate the component to call the spy and mock
     fixture = TestBed.createComponent(LoginComponent);

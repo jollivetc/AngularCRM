@@ -13,7 +13,8 @@ tasks:
     init: npm install && npm run build
     command: npm run start
   - name: Angular-crm-back
-    command: docker run -p 3000:3000 yatho/angular-crm-back
+    init: git clone https://github.com/jollivetc/AngularCRM-back && cd AngularCRM-back
+    command: npm install && npm run start-auth
 
 vscode:
   extensions:

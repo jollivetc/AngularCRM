@@ -26,9 +26,10 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Gitpod
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jollivetc/AngularCRM)
+
 ## Connexion auth 
 User : apside@email.com
 pwd : apside
-ou
-User : bob@email.com
-pwd : bob

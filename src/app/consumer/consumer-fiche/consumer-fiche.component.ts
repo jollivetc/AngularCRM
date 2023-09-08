@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ConsumerService} from '../consumer.service';
 import {Consumer} from '../model/consumer';
@@ -11,19 +11,19 @@ import {Location} from '@angular/common';
 })
 export class ConsumerFicheComponent implements OnInit {
 
-  public consumerForm: FormGroup;
+  public consumerForm: UntypedFormGroup;
 
   constructor(private route: ActivatedRoute,
               private consumerService: ConsumerService,
               private location: Location) {
 
-    this.consumerForm = new FormGroup({
-      id: new FormControl(),
-      civility: new FormControl('', [Validators.required]),
-      firstname: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      lastname: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required, Validators.minLength(10)])
+    this.consumerForm = new UntypedFormGroup({
+      id: new UntypedFormControl(),
+      civility: new UntypedFormControl('', [Validators.required]),
+      firstname: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
+      lastname: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      phone: new UntypedFormControl('', [Validators.required, Validators.minLength(10)])
     });
   }
 

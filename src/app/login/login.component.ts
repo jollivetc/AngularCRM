@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {AuthenticationService} from './authentication.service';
 import {Router} from '@angular/router';
 import {User} from './model/user';
@@ -10,16 +10,16 @@ import {User} from './model/user';
 })
 export class LoginComponent {
 
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
 
   constructor(private authentService: AuthenticationService, private router: Router) {
     if (this.authentService.isAuthenticated) {
       this.authentService.logout();
     }
     // Login form definition
-    this.loginForm = new FormGroup({
-      login: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      password: new FormControl('', [Validators.required, checkPassword])
+    this.loginForm = new UntypedFormGroup({
+      login: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new UntypedFormControl('', [Validators.required, checkPassword])
     });
   }
 

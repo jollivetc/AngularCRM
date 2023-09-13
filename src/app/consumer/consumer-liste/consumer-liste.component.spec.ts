@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ConsumerListeComponent} from './consumer-liste.component';
-import {AppMaterialModule} from 'src/app/app-material.module';
+import {AppMaterialModule} from '../../app-material.module';
 import {FormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -9,7 +9,7 @@ import {ConsumerService} from '../consumer.service';
 import {Observable} from 'rxjs';
 import {Consumer} from '../model/consumer';
 import {RouterTestingModule} from '@angular/router/testing';
-import {PhonePipe} from 'src/app/common/phone.pipe';
+import {PhonePipe} from '../../common/phone.pipe';
 import {Router, UrlTree} from '@angular/router';
 
 describe('ConsumerListeComponent', () => {

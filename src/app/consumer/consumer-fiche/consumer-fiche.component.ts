@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormControl, NonNullableFormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ConsumerService} from '../consumer.service';
 import {Consumer} from '../model/consumer';
@@ -11,20 +11,20 @@ import {Location} from '@angular/common';
 })
 export class ConsumerFicheComponent implements OnInit {
 
-  public consumerForm: UntypedFormGroup;
+  public consumerForm = this.fb.group({
+    id: new FormControl(),
+    civility: ['', [Validators.required]],
+    firstname: ['', [Validators.required, Validators.minLength(3)]],
+    lastname: this.fb.control('', [Validators.required, Validators.minLength(3)]),
+    email: this.fb.control('', [Validators.required, Validators.email]),
+    phone: this.fb.control('', [Validators.required, Validators.minLength(10)])
+  });
 
-  constructor(private route: ActivatedRoute,
+  constructor(private fb: NonNullableFormBuilder,
+              private route: ActivatedRoute,
               private consumerService: ConsumerService,
               private location: Location) {
 
-    this.consumerForm = new UntypedFormGroup({
-      id: new UntypedFormControl(),
-      civility: new UntypedFormControl('', [Validators.required]),
-      firstname: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
-      lastname: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new UntypedFormControl('', [Validators.required, Validators.email]),
-      phone: new UntypedFormControl('', [Validators.required, Validators.minLength(10)])
-    });
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class ConsumerFicheComponent implements OnInit {
   }
 
   onSubmit() {
-    const c: Consumer = this.consumerForm.value;
+    const c: Consumer = this.consumerForm.getRawValue();
     if (c.id) {
       this.consumerService.update(c).subscribe(() => this.location.back());
     } else {

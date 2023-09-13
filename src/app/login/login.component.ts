@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {AuthenticationService} from './authentication.service';
 import {Router} from '@angular/router';
 import {User} from './model/user';
@@ -10,22 +10,21 @@ import {User} from './model/user';
 })
 export class LoginComponent {
 
-  public loginForm: UntypedFormGroup;
+  public loginForm= new FormGroup({
+    login: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    password: new FormControl('', [Validators.required, checkPassword])
+  });
 
   constructor(private authentService: AuthenticationService, private router: Router) {
     if (this.authentService.isAuthenticated) {
       this.authentService.logout();
     }
-    // Login form definition
-    this.loginForm = new UntypedFormGroup({
-      login: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
-      password: new UntypedFormControl('', [Validators.required, checkPassword])
-    });
   }
 
   onSubmit(): void {
-    this.authentService.authentUser(this.loginForm.value.login,
-      this.loginForm.value.password)
+    this.loginForm.get('login')
+    this.authentService.authentUser(this.loginForm.getRawValue().login!,
+      this.loginForm.getRawValue().password!)
       .subscribe((u: User) => {
           this.router.navigateByUrl('/home');
         },
